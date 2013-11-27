@@ -24,7 +24,7 @@ describe DateTimeAttribute do
       its(:parser) { should == parser }
 
       it 'sets holders parser' do
-        DateTimeAttribute::Holder.parser.should == parser
+        DateTimeAttribute::Container.parser.should == parser
       end
     end
   end

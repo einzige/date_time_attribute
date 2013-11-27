@@ -1,4 +1,4 @@
-require 'date-time-attribute'
+require 'date_time_attribute'
 
 RSpec.configure do |config|
   config.mock_with :rspec

@@ -1,20 +1,20 @@
 require 'rubygems'
 require 'active_support'
-require 'date_time_attribute/assigner'
+require 'date_time_attribute/container'
 
 module DateTimeAttribute
   extend ActiveSupport::Concern
 
   def date_time_holder(attribute)
-    (@date_time_holder ||= {})[attribute] ||= DateTimeAttribute::Holder.new(send(attribute))
+    (@date_time_holder ||= {})[attribute] ||= DateTimeAttribute::Container.new(send(attribute))
   end
 
   def self.parser
-    DateTimeAttribute::Holder.parser
+    DateTimeAttribute::Container.parser
   end
 
   def self.parser=(val)
-    DateTimeAttribute::Holder.parser = val
+    DateTimeAttribute::Container.parser = val
   end
 
   def self.in_time_zone(zone)

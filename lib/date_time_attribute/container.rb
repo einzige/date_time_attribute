@@ -2,7 +2,7 @@ require 'active_support/core_ext/object/try'
 require 'active_support/core_ext/time/zones'
 
 module DateTimeAttribute
-  class Holder < Struct.new(:date_time, :date, :time)
+  class Container < Struct.new(:date_time, :date, :time)
     def date=(val)
       @date = parse(val)
       update_date_time
