@@ -1,12 +1,13 @@
 require 'rubygems'
 require 'active_support'
+require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
   extend ActiveSupport::Concern
 
-  def date_time_holder(attribute)
-    (@date_time_holder ||= {})[attribute] ||= DateTimeAttribute::Container.new(send(attribute))
+  def date_time_container(attribute)
+    (@date_time_container ||= {})[attribute] ||= DateTimeAttribute::Container.new(send(attribute))
   end
 
   def self.parser
@@ -17,18 +18,19 @@ module DateTimeAttribute
     DateTimeAttribute::Container.parser = val
   end
 
-  def self.in_time_zone(zone)
+  def in_time_zone(zone)
     case zone
     when nil
       yield
-    when Time::Zone, String
+    when ActiveSupport::TimeZone, String
       old_zone = Time.zone
       Time.zone = zone
-      yield.tap { Time.zone = old_zone }
+      yield(zone).tap { Time.zone = old_zone }
     when Proc, Symbol
       old_zone = Time.zone
-      Time.zone = zone.to_proc.call
-      yield.tap { Time.zone = old_zone }
+      zone = instance_eval(&(zone.to_proc))
+      Time.zone = zone
+      yield(zone).tap { Time.zone = old_zone }
     else
       raise ArgumentError, "Expected timezone, got #{zone.inspect}"
     end
@@ -44,33 +46,47 @@ module DateTimeAttribute
       end
 
       define_method("#{attribute}_date") do
-        DateTimeAttribute.in_time_zone(time_zone) do
-          date_time_holder(attribute).date
+        in_time_zone(time_zone) do |time_zone|
+          date_time_container(attribute).in_time_zone(time_zone).date
         end
       end
 
       define_method("#{attribute}_time") do
-        DateTimeAttribute.in_time_zone(time_zone) do
-          date_time_holder(attribute).time
+        in_time_zone(time_zone) do |time_zone|
+          date_time_container(attribute).in_time_zone(time_zone).time
+        end
+      end
+
+      define_method("#{attribute}_time_zone") do
+        in_time_zone(time_zone) do |time_zone|
+          date_time_container(attribute).in_time_zone(time_zone).time_zone
         end
       end
 
       define_method("#{attribute}_date=") do |val|
-        DateTimeAttribute.in_time_zone(time_zone) do
-          holder = date_time_holder(attribute)
-          (holder.date = val).tap do
-            self.send("#{attribute}=", holder.date_time)
+        in_time_zone(time_zone) do |time_zone|
+          container = date_time_container(attribute).in_time_zone(time_zone)
+          (container.date = val).tap do
+            self.send("#{attribute}=", container.date_time)
           end
         end
       end
 
       define_method("#{attribute}_time=") do |val|
-        DateTimeAttribute.in_time_zone(time_zone) do
-          holder = date_time_holder(attribute)
-          (holder.time = val).tap do
-            self.send("#{attribute}=", holder.date_time)
+        in_time_zone(time_zone) do |time_zone|
+          container = date_time_container(attribute).in_time_zone(time_zone)
+          (container.time = val).tap do
+            self.send("#{attribute}=", container.date_time)
           end
         end
+      end
+
+      define_method("#{attribute}_time_zone=") do |val|
+        in_time_zone(val) do |time_zone|
+          container = date_time_container(attribute).in_time_zone(time_zone)
+          self.send("#{attribute}=", container.date_time)
+          container.time_zone
+        end if val
       end
     end
   end
