@@ -1,27 +1,30 @@
+require 'active_support/core_ext/object/try'
+require 'active_support/core_ext/time/zones'
+
 module DateTimeAttribute
   class Holder < Struct.new(:date_time, :date, :time)
     def date=(val)
-      @date = parse(val, :to_date)
+      @date = parse(val)
       update_date_time
       @date
     end
 
     def time=(val)
-      @time = parse(val, :to_time)
+      @time = parse(val)
       update_date_time
       @time
     end
 
     def date
-      @date || date_time.try(:to_date)
+      @date || date_time
     end
 
     def time
-      @time || date_time.try(:to_time)
+      @time || date_time
     end
 
     def self.parser
-      @parser || Time.zone
+      @parser || Time.zone || Time
     end
 
     def self.parser=(val)
@@ -30,10 +33,10 @@ module DateTimeAttribute
 
     private
 
-    def parse(val, modifier)
+    def parse(val)
       case val
         when String
-          self.class.parser.parse(val).try(modifier)
+          self.class.parser.parse(val)
         when Date, Time, DateTime, ActiveSupport::TimeWithZone
           val.send(modifier)
         when nil
@@ -44,7 +47,7 @@ module DateTimeAttribute
 
     def update_date_time
       if @date || @time
-        @date_time = self.class.parser.parse("#{date.try(:strftime, '%Y-%m-%d')} #{time.try(:strftime, '%H:%M')}")
+        self.date_time = self.class.parser.parse("#{date.try(:strftime, '%Y-%m-%d')} #{time.try(:strftime, '%H:%M')}")
       end
     end
   end
