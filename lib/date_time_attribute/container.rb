@@ -64,7 +64,7 @@ module DateTimeAttribute
         when String
           self.class.parser.parse(val)
         when Date, Time, DateTime, ActiveSupport::TimeWithZone
-          val.send(modifier)
+          val
         when nil
         else
           raise ArgumentError, "Expected Date, Time, String, got #{val.class.name}"
