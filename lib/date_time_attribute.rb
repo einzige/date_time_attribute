@@ -54,7 +54,7 @@ module DateTimeAttribute
       attributes.each do |attribute|
         attribute = attribute.to_sym
 
-        unless instance_methods.include?(attribute)
+        unless method_defined?(attribute)
           attr_accessor attribute
         end
 
