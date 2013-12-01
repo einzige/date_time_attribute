@@ -62,6 +62,16 @@ describe DateTimeAttribute::Container do
         its(:day) { should == 3 }
         its(:hour) { should == 22 }
 
+        context "non string values" do
+          let(:date) { Date.new(2001, 02, 03) }
+          let(:time) { Time.new(2001, 02, 03, 04, 05) }
+
+          its(:year) { should == 2001 }
+          its(:month) { should == 2 }
+          its(:day) { should == 3 }
+          its(:hour) { should == 4 }
+        end
+
         context "time zone set" do
           its(:year) { should == 2001 }
           its(:month) { should == 2 }

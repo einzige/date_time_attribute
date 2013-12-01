@@ -13,7 +13,7 @@ describe DateTimeAttribute do
     let(:dummy_class) do
       Class.new do
         include DateTimeAttribute
-        date_time_attribute :due_at
+        date_time_attribute :due_at, :created_at
       end
     end
 
@@ -22,6 +22,9 @@ describe DateTimeAttribute do
     it { should respond_to :due_at }
     it { should respond_to :due_at_time }
     it { should respond_to :due_at_date }
+    it { should respond_to :created_at }
+    it { should respond_to :created_at_time }
+    it { should respond_to :created_at_date }
 
     describe "values" do
       let(:due_at) { nil }

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{date_time_attribute}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.date = %q{2013-11-22}
   s.authors = ["Sergei Zinin"]
@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.description = %q{Allows to assign date and time attributes separately for a DateTime attribute in your model instance. Plays with time zones as well.}
   s.summary = %q{Splits DateTime attribute access into three separate Data, Time and TimeZone attributes}
 
-  s.add_runtime_dependency 'activesupport', ">= 3.0.12"
+  s.add_runtime_dependency 'activesupport', ">= 3.0.0"
   s.add_development_dependency 'bundler'
 end

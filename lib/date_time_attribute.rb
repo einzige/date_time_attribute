@@ -4,7 +4,7 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   extend ActiveSupport::Concern
 
@@ -47,56 +47,60 @@ module DateTimeAttribute
     # @param [Symbol] attribute Attribute name
     # @param [Hash<Symbol>] opts
     # @option opts [String, Symbol, Proc, nil] :time_zone
-    def date_time_attribute(attribute, opts = {})
-      attribute = attribute.to_sym
+    def date_time_attribute(*attributes)
+      opts = attributes.extract_options!
       time_zone = opts[:time_zone]
 
-      unless instance_methods.include?(attribute)
-        attr_accessor attribute
-      end
+      attributes.each do |attribute|
+        attribute = attribute.to_sym
 
-      define_method("#{attribute}_date") do
-        in_time_zone(time_zone) do |time_zone|
-          date_time_container(attribute).in_time_zone(time_zone).date
+        unless instance_methods.include?(attribute)
+          attr_accessor attribute
         end
-      end
 
-      define_method("#{attribute}_time") do
-        in_time_zone(time_zone) do |time_zone|
-          date_time_container(attribute).in_time_zone(time_zone).time
-        end
-      end
-
-      define_method("#{attribute}_time_zone") do
-        in_time_zone(time_zone) do |time_zone|
-          date_time_container(attribute).in_time_zone(time_zone).time_zone
-        end
-      end
-
-      define_method("#{attribute}_date=") do |val|
-        in_time_zone(time_zone) do |time_zone|
-          container = date_time_container(attribute).in_time_zone(time_zone)
-          (container.date = val).tap do
-            self.send("#{attribute}=", container.date_time)
+        define_method("#{attribute}_date") do
+          in_time_zone(time_zone) do |time_zone|
+            date_time_container(attribute).in_time_zone(time_zone).date
           end
         end
-      end
 
-      define_method("#{attribute}_time=") do |val|
-        in_time_zone(time_zone) do |time_zone|
-          container = date_time_container(attribute).in_time_zone(time_zone)
-          (container.time = val).tap do
-            self.send("#{attribute}=", container.date_time)
+        define_method("#{attribute}_time") do
+          in_time_zone(time_zone) do |time_zone|
+            date_time_container(attribute).in_time_zone(time_zone).time
           end
         end
-      end
 
-      define_method("#{attribute}_time_zone=") do |val|
-        in_time_zone(val) do |time_zone|
-          container = date_time_container(attribute).in_time_zone(time_zone)
-          self.send("#{attribute}=", container.date_time)
-          container.time_zone
-        end if val
+        define_method("#{attribute}_time_zone") do
+          in_time_zone(time_zone) do |time_zone|
+            date_time_container(attribute).in_time_zone(time_zone).time_zone
+          end
+        end
+
+        define_method("#{attribute}_date=") do |val|
+          in_time_zone(time_zone) do |time_zone|
+            container = date_time_container(attribute).in_time_zone(time_zone)
+            (container.date = val).tap do
+              self.send("#{attribute}=", container.date_time)
+            end
+          end
+        end
+
+        define_method("#{attribute}_time=") do |val|
+          in_time_zone(time_zone) do |time_zone|
+            container = date_time_container(attribute).in_time_zone(time_zone)
+            (container.time = val).tap do
+              self.send("#{attribute}=", container.date_time)
+            end
+          end
+        end
+
+        define_method("#{attribute}_time_zone=") do |val|
+          in_time_zone(val) do |time_zone|
+            container = date_time_container(attribute).in_time_zone(time_zone)
+            self.send("#{attribute}=", container.date_time)
+            container.time_zone
+          end if val
+        end
       end
     end
   end
