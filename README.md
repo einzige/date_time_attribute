@@ -1,12 +1,14 @@
 # DateTime attribute for Ruby!
 
-Allows to assign date, time and time zone attributes separately for a DateTime attribute in your class/model.
 Splits DateTime attribute access into two Data, Time and TimeZone attributes.
+
 See also [ActiveRecord (Rails) version](https://github.com/einzige/date_time_attribute_rails).
 
 ## Install
 
-`gem install date_time_attribute`
+```bash
+gem install date_time_attribute
+```
 
 ## Enjoy
 
@@ -109,7 +111,7 @@ task.due_at_time = '10:00pm'
 ```ruby
 my_date_time = DateTimeAttribute::Container.new
 my_date_time.date_time           # => nil
-my_date_time.date = '2001-02-03
+my_date_time.date = '2001-02-03'
 my_date_time.date_time           # => 2001-02-03 00:00:00 +0700
 my_date_time.dime = '10:00pm'
 my_date_time.date_time           # => 2001-02-03 22:00:00 +0700

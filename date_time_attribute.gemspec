@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.extra_rdoc_files = ["README.md"]
 
-  s.description = %q{Allows to assign date and time attributes separately for a DateTime attribute in your class/model. Play with time zones as well.}
+  s.description = %q{Allows to assign date and time attributes separately for a DateTime attribute in your model instance. Plays with time zones as well.}
   s.summary = %q{Splits DateTime attribute access into three separate Data, Time and TimeZone attributes}
 
   s.add_runtime_dependency 'activesupport', ">= 3.0.12"
