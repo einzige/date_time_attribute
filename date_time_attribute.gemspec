@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{date_time_attribute}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.date = %q{2013-11-22}
   s.authors = ["Sergei Zinin"]

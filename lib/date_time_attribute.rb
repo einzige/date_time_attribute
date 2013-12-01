@@ -4,7 +4,7 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
 
   extend ActiveSupport::Concern
 
@@ -54,7 +54,8 @@ module DateTimeAttribute
       attributes.each do |attribute|
         attribute = attribute.to_sym
 
-        unless method_defined?(attribute)
+        # ActiveRecord issue: https://rails.lighthouseapp.com/projects/8994/tickets/4317-inconsistent-method_defined-bevahiour
+        if !(method_defined?(attribute) || (respond_to?(:attribute_method?) && attribute_method?(attribute)))
           attr_accessor attribute
         end
 

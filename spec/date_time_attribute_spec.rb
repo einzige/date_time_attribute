@@ -28,6 +28,8 @@ describe DateTimeAttribute do
 
     describe "values" do
       let(:due_at) { nil }
+      let(:date) { nil }
+      let(:time) { nil }
       let(:time_zone) { nil }
       subject(:date_time) { target.due_at }
 
@@ -44,6 +46,11 @@ describe DateTimeAttribute do
         let(:time) { nil }
 
         it { should be_nil }
+      end
+
+      context "date_time set" do
+        let(:due_at) { Time.zone.now }
+        it { should_not be_nil }
       end
 
       context "time set" do
