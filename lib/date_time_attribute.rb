@@ -6,18 +6,22 @@ require 'date_time_attribute/container'
 module DateTimeAttribute
   extend ActiveSupport::Concern
 
-  def date_time_container(attribute)
-    (@date_time_container ||= {})[attribute] ||= DateTimeAttribute::Container.new(send(attribute))
-  end
-
   def self.parser
     DateTimeAttribute::Container.parser
   end
 
+  # @param val Any adapter responding to #parse
   def self.parser=(val)
     DateTimeAttribute::Container.parser = val
   end
 
+  # @param [Symbol] attribute
+  # @return [Container]
+  def date_time_container(attribute)
+    (@date_time_container ||= {})[attribute] ||= DateTimeAttribute::Container.new(send(attribute))
+  end
+
+  # @param [String, Symbol, Proc, nil] zone Time zone
   def in_time_zone(zone)
     case zone
     when nil
@@ -37,6 +41,10 @@ module DateTimeAttribute
   end
 
   module ClassMethods
+
+    # @param [Symbol] attribute Attribute name
+    # @param [Hash<Symbol>] opts
+    # @option opts [String, Symbol, Proc, nil] :time_zone
     def date_time_attribute(attribute, opts = {})
       attribute = attribute.to_sym
       time_zone = opts[:time_zone]
