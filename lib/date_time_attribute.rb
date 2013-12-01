@@ -4,6 +4,8 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
+  VERSION = '0.0.1'
+
   extend ActiveSupport::Concern
 
   def self.parser
