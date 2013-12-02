@@ -136,7 +136,7 @@ Then add attributes into your models:
 
 ```ruby
 class MyModel < ActiveRecord::Base
-  date_time_attribute :created_at # See more examples above
+  date_time_attribute :created_at, :updated_at # See more examples above
 end
 ```
 
