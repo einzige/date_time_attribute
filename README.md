@@ -6,8 +6,6 @@
 
 Splits DateTime attribute access into two Data, Time and TimeZone attributes.
 
-See also [ActiveRecord (Rails) version](https://github.com/einzige/date_time_attribute_rails).
-
 ## Install
 
 ```bash
@@ -121,8 +119,16 @@ my_date_time.dime = '10:00pm'
 my_date_time.date_time           # => 2001-02-03 22:00:00 +0700
 
 # ...same as described above
+
+my_date_time = DateTimeAttribute::Container.new(Time.zone.now)
+my_date_time.date_time # => 2013-12-03 00:02:01 +0000
 ```
 
-## See also
+## ActiveRecord users
 
-[ActiveRecord (Rails) version](https://github.com/einzige/date_time_attribute_rails)
+If you are using Rails put in your initializers (eg `config/initializers/date_time_attribute.rb`):
+
+```ruby
+ActiveRecord::Base.send(:include, DateTimeAttribute)
+```
+
