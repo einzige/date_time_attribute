@@ -132,3 +132,11 @@ If you are using Rails put in your initializers (eg `config/initializers/date_ti
 ActiveRecord::Base.send(:include, DateTimeAttribute)
 ```
 
+Then add attributes into your models:
+
+```ruby
+class MyModel < ActiveRecord::Base
+  date_time_attribute :created_at # See more examples above
+end
+```
+
