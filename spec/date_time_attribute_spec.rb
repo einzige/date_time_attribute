@@ -53,6 +53,23 @@ describe DateTimeAttribute do
         it { should_not be_nil }
       end
 
+      context "date_time reset to nil" do
+        let(:due_at) { nil }
+        let(:date) { '2001-02-03' }
+        let(:time) { '10:00pm' }
+
+        it { should_not be_nil }
+
+        context "returning back to nil" do
+          before do
+            target.due_at = nil
+            target.due_at_date = nil
+          end
+
+          it { should be_nil }
+        end
+      end
+
       context "time set" do
         let(:date) { nil }
         let(:time) { '23:00' }

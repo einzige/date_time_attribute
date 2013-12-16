@@ -3,8 +3,19 @@ require 'active_support/core_ext/time/zones'
 require 'active_support/core_ext/module/delegation'
 
 module DateTimeAttribute
-  class Container < Struct.new(:date_time, :date, :time, :time_zone)
-    delegate :year, :month, :day, :hour, to: :date_time
+  class Container
+    attr_accessor :date_time, :date, :time, :time_zone
+
+    # @param [String, Date, Time, DateTime, nil] date_time
+    # @param [String, Date, Time, DateTime, nil] date
+    # @param [String, Date, Time, DateTime, nil] time
+    # @param [String] time_zone
+    def initialize(date_time = nil, date = nil, time = nil, time_zone = nil)
+      self.date_time = date_time
+      self.date = date
+      self.time = time
+      self.time_zone = time_zone
+    end
 
     # @param [String] time_zone
     # @return [Container] self
@@ -12,6 +23,17 @@ module DateTimeAttribute
       self.time_zone = time_zone
       update_date_time
       self
+    end
+
+    # @param [String, Date, Time, DateTime, nil] val
+    def date_time=(val)
+      @date = parse(val)
+      @time = parse(val)
+      @date_time = val
+    end
+
+    def date_time
+      @date_time
     end
 
     # @return [String, nil]
@@ -46,6 +68,22 @@ module DateTimeAttribute
     # @return [Time, String]
     def time
       @time || date_time
+    end
+
+    def year
+      date_time.try(:year)
+    end
+
+    def month
+      date_time.try(:month)
+    end
+
+    def day
+      date_time.try(:day)
+    end
+
+    def hour
+      date_time.try(:hour)
     end
 
     def self.parser

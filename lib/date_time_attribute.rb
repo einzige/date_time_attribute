@@ -4,7 +4,7 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
-  VERSION = '0.0.4'
+  VERSION = '0.0.5'
 
   extend ActiveSupport::Concern
 
@@ -62,6 +62,16 @@ module DateTimeAttribute
         define_method("#{attribute}_date") do
           in_time_zone(time_zone) do |time_zone|
             date_time_container(attribute).in_time_zone(time_zone).date
+          end
+        end
+
+        alias_method "old_#{attribute}=", "#{attribute}="
+
+        define_method("#{attribute}=") do |val|
+          in_time_zone(time_zone) do |time_zone|
+            container = date_time_container(attribute).in_time_zone(time_zone)
+            container.date_time = val
+            self.send("old_#{attribute}=", container.date_time)
           end
         end
 
