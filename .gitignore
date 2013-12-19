@@ -18,3 +18,4 @@ doc
 .rvmrc
 Gemfile.lock
 .idea
+.ruby-version
