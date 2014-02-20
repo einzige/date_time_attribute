@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/einzige/date_time_attribute.png?branch=master)](https://travis-ci.org/einzige/date_time_attribute)
 [![Dependency Status](https://gemnasium.com/einzige/date_time_attribute.png)](https://gemnasium.com/einzige/date_time_attribute)
 
-Splits DateTime attribute access into two Data, Time and TimeZone attributes.
+Splits DateTime attribute access into two Data, Time and TimeZone attributes. Compatible with ActiveRecord.
 
 ## Install
 
