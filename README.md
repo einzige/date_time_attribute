@@ -114,7 +114,7 @@ my_date_time = DateTimeAttribute::Container.new
 my_date_time.date_time           # => nil
 my_date_time.date = '2001-02-03'
 my_date_time.date_time           # => 2001-02-03 00:00:00 +0700
-my_date_time.dime = '10:00pm'
+my_date_time.time = '10:00pm'
 my_date_time.date_time           # => 2001-02-03 22:00:00 +0700
 
 # ...same as described above
