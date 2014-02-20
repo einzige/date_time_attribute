@@ -23,7 +23,7 @@ describe DateTimeAttribute::Container do
       target.time = time
     end
 
-    context "nothing set" do
+    context 'nothing set' do
       let(:date_time) { nil }
       let(:date) { nil }
       let(:time) { nil }
@@ -31,7 +31,7 @@ describe DateTimeAttribute::Container do
       its(:date_time) { should be_nil }
     end
 
-    context "time set" do
+    context 'time set' do
       let(:date) { nil }
       let(:time) { '23:00' }
 
@@ -41,7 +41,7 @@ describe DateTimeAttribute::Container do
       its(:hour) { should == 23 }
     end
 
-    context "date set" do
+    context 'date set' do
       let(:date) { '2001-02-03' }
       let(:time) { nil }
 
@@ -53,7 +53,7 @@ describe DateTimeAttribute::Container do
         subject.hour.should == 0
       end
 
-      context "time set" do
+      context 'time set' do
         let(:date) { '2001-02-03' }
         let(:time) { '10:00pm' }
 
@@ -62,7 +62,7 @@ describe DateTimeAttribute::Container do
         its(:day) { should == 3 }
         its(:hour) { should == 22 }
 
-        context "non string values" do
+        context 'non string values' do
           let(:date) { Date.new(2001, 02, 03) }
           let(:time) { Time.new(2001, 02, 03, 04, 05) }
 
@@ -72,7 +72,7 @@ describe DateTimeAttribute::Container do
           its(:hour) { should == 4 }
         end
 
-        context "time zone set" do
+        context 'time zone set' do
           its(:year) { should == 2001 }
           its(:month) { should == 2 }
 
@@ -88,7 +88,7 @@ describe DateTimeAttribute::Container do
             expect { subject.time_zone = 'Moscow' }.to change { subject.hour }.from(22).to(9)
           end
 
-          context "different environment timezone set" do
+          context 'different environment timezone set' do
             before do
               Time.zone = 'Krasnoyarsk'
             end

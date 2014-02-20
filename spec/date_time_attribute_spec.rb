@@ -5,7 +5,7 @@ describe DateTimeAttribute do
     Time.zone = 'Pacific Time (US & Canada)'
   end
 
-  describe ".parser" do
+  describe '.parser' do
     its(:parser) { should == Time.zone }
   end
 
@@ -26,7 +26,7 @@ describe DateTimeAttribute do
     it { should respond_to :created_at_time }
     it { should respond_to :created_at_date }
 
-    describe "values" do
+    describe 'values' do
       let(:due_at) { nil }
       let(:date) { nil }
       let(:time) { nil }
@@ -40,7 +40,7 @@ describe DateTimeAttribute do
         target.due_at_time_zone = time_zone
       end
 
-      context "nothing set" do
+      context 'nothing set' do
         let(:due_at) { nil }
         let(:date) { nil }
         let(:time) { nil }
@@ -48,19 +48,19 @@ describe DateTimeAttribute do
         it { should be_nil }
       end
 
-      context "date_time set" do
+      context 'date_time set' do
         let(:due_at) { Time.zone.now }
         it { should_not be_nil }
       end
 
-      context "date_time reset to nil" do
+      context 'date_time reset to nil' do
         let(:due_at) { nil }
         let(:date) { '2001-02-03' }
         let(:time) { '10:00pm' }
 
         it { should_not be_nil }
 
-        context "returning back to nil" do
+        context 'returning back to nil' do
           before do
             target.due_at = nil
             target.due_at_date = nil
@@ -70,7 +70,7 @@ describe DateTimeAttribute do
         end
       end
 
-      context "time set" do
+      context 'time set' do
         let(:date) { nil }
         let(:time) { '23:00' }
 
@@ -80,7 +80,7 @@ describe DateTimeAttribute do
         its(:hour) { should == 23 }
       end
 
-      context "date set" do
+      context 'date set' do
         let(:date) { '2001-02-03' }
         let(:time) { nil }
 
@@ -89,7 +89,7 @@ describe DateTimeAttribute do
         its(:day) { should == 3 }
         its(:hour) { should == 0 }
 
-        context "time set" do
+        context 'time set' do
           let(:date) { '2001-02-03' }
           let(:time) { '10:00pm' }
 
@@ -98,7 +98,7 @@ describe DateTimeAttribute do
           its(:day) { should == 3 }
           its(:hour) { should == 22 }
 
-          context "timezone set explicitly" do
+          context 'timezone set explicitly' do
             let(:time_zone) { 'Krasnoyarsk' }
 
             its(:year) { should == 2001 }
@@ -111,7 +111,7 @@ describe DateTimeAttribute do
             end
           end
 
-          context "time zone set on attribute" do
+          context 'time zone set on attribute' do
             let(:dummy_class) do
               Class.new do
                 include DateTimeAttribute
@@ -128,7 +128,7 @@ describe DateTimeAttribute do
               subject.time_zone.name.should == 'Moscow'
             end
 
-            context "timezone set explicitly" do
+            context 'timezone set explicitly' do
               let(:time_zone) { 'Krasnoyarsk' }
 
               its(:year) { should == 2001 }
@@ -141,7 +141,7 @@ describe DateTimeAttribute do
               end
             end
 
-            context "different timezone set" do
+            context 'different timezone set' do
               before do
                 Time.zone = 'Krasnoyarsk'
               end
@@ -156,7 +156,7 @@ describe DateTimeAttribute do
               end
             end
 
-            context "timezone proc given" do
+            context 'timezone proc given' do
               let(:dummy_class) do
                 Class.new do
                   include DateTimeAttribute
@@ -174,7 +174,7 @@ describe DateTimeAttribute do
               end
             end
 
-            context "timezone method given" do
+            context 'timezone method given' do
               let(:dummy_class) do
                 Class.new do
                   include DateTimeAttribute
@@ -196,7 +196,7 @@ describe DateTimeAttribute do
               end
             end
 
-            context "nil timezone" do
+            context 'nil timezone' do
               let(:dummy_class) do
                 Class.new do
                   include DateTimeAttribute

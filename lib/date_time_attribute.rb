@@ -4,7 +4,7 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
-  VERSION = '0.0.5'
+  VERSION = '0.0.6'
 
   extend ActiveSupport::Concern
 
@@ -53,11 +53,14 @@ module DateTimeAttribute
 
       attributes.each do |attribute|
         attribute = attribute.to_sym
+        is_active_record_attribute = respond_to?(:attribute_method?) && attribute_method?(attribute)
 
-        # ActiveRecord issue: https://rails.lighthouseapp.com/projects/8994/tickets/4317-inconsistent-method_defined-bevahiour
-        if !(method_defined?(attribute) || (respond_to?(:attribute_method?) && attribute_method?(attribute)))
-          attr_accessor attribute
+        # ActiveRecord lazy initialization issue: https://github.com/einzige/date_time_attribute/issues/2
+        if is_active_record_attribute && !attribute_methods_generated?
+          define_attribute_methods
         end
+
+        attr_accessor attribute unless method_defined?(attribute)
 
         define_method("#{attribute}_date") do
           in_time_zone(time_zone) do |time_zone|
