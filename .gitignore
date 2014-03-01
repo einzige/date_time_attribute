@@ -19,3 +19,4 @@ doc
 Gemfile.lock
 .idea
 .ruby-version
+gemfiles/*.lock
