@@ -56,7 +56,7 @@ module DateTimeAttribute
         is_active_record_attribute = respond_to?(:attribute_method?) && attribute_method?(attribute)
 
         # ActiveRecord lazy initialization issue: https://github.com/einzige/date_time_attribute/issues/2
-        if is_active_record_attribute && !attribute_methods_generated?
+        if is_active_record_attribute && @attribute_methods_generated
           define_attribute_methods
         end
 
