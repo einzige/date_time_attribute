@@ -100,4 +100,25 @@ describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
       end
     end
   end
+
+
+  context "existed record" do
+
+    subject(:target) { Model.first}
+
+    describe 'values' do
+      subject(:date_time) { target.created_at }
+
+      context 'datetime set' do
+        it { should_not be_nil }
+      end
+
+      context 'datetime correct' do
+        its(:year) { should == 2014 }
+        its(:month) { should == 1 }
+        its(:day) { should == 1 }
+        its(:hour) { should == 12 }
+      end
+    end
+  end
 end

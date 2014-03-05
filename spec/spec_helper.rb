@@ -14,6 +14,9 @@ shared_context 'use active record', use_active_record: true do
     include DateTimeAttribute
     date_time_attribute :created_at
   end
+
+  Model.create! created_at: '2014-01-01 12:00:00 +0000'
+
 end
 
 RSpec.configure do |config|
