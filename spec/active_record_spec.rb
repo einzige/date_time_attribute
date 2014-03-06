@@ -1,6 +1,22 @@
 require 'spec_helper'
+require 'active_record'
 
-describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
+
+ActiveRecord::Schema.define do
+  create_table 'models' do |table|
+    table.column :created_at, :datetime
+  end
+end
+
+class Model < ActiveRecord::Base
+  include DateTimeAttribute
+  date_time_attribute :created_at
+end
+
+Model.create!(created_at: '2014-01-01 12:00:00')
+
+describe DateTimeAttribute, ActiveRecord::Base do
   before do
     Time.zone = 'Pacific Time (US & Canada)'
   end
@@ -101,23 +117,14 @@ describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
     end
   end
 
-
-  context "existed record" do
-
-    subject(:target) { Model.first}
+  context "loaded from db" do
+    subject(:target) {  Model.first }
 
     describe 'values' do
       subject(:date_time) { target.created_at }
 
       context 'datetime set' do
         it { should_not be_nil }
-      end
-
-      context 'datetime correct' do
-        its(:year) { should == 2014 }
-        its(:month) { should == 1 }
-        its(:day) { should == 1 }
-        its(:hour) { should == 12 }
       end
     end
   end
