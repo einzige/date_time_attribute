@@ -1,21 +1,6 @@
 require 'spec_helper'
-require 'active_record'
 
-ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
-
-ActiveRecord::Schema.define do
-  create_table 'models' do |table|
-    table.column :created_at, :datetime
-  end
-end
-
-class Model < ActiveRecord::Base
-  include DateTimeAttribute
-  date_time_attribute :created_at
-end
-
-
-describe DateTimeAttribute, ActiveRecord::Base do
+describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
   before do
     Time.zone = 'Pacific Time (US & Canada)'
   end
