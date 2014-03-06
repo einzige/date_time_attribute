@@ -4,7 +4,7 @@ require 'active_support/duration'
 require 'date_time_attribute/container'
 
 module DateTimeAttribute
-  VERSION = '0.0.7'
+  VERSION = '0.0.8'
 
   extend ActiveSupport::Concern
 
