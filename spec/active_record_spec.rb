@@ -100,4 +100,9 @@ describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
       end
     end
   end
+
+  context "loaded from db" do
+    subject { Model.find(Model.create!(created_at: '2014-01-01 12:00:00').id) }
+    its(:created_at) { should == DateTime.new(2014, 01, 01, 12, 0, 0) }
+  end
 end
