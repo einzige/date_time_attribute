@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/einzige/date_time_attribute.png?branch=master)](https://travis-ci.org/einzige/date_time_attribute)
 [![Dependency Status](https://gemnasium.com/einzige/date_time_attribute.png)](https://gemnasium.com/einzige/date_time_attribute)
 
-Splits DateTime attribute access into two Data, Time and TimeZone attributes. Compatible with ActiveRecord.
+Splits DateTime attribute access into two Data, Time and TimeZone attributes. Compatible with ActiveRecorda as well as with Rails.
 
 ## Install
 
@@ -98,6 +98,32 @@ task.due_at_time_zone = 'Moscow'
 task.due_at                      # => Mon, 02 Dec 2013 02:00:00 MSK +04:00
 ```
 
+## Rails users
+
+You don't need to set up anything, it just works out of the box through railtie
+
+```ruby
+class MyModel < ActiveRecord::Base
+  date_time_attribute :created_at
+end
+```
+
+## ActiveRecord users (no Rails)
+
+In order to include globally in your models:
+
+```ruby
+ActiveRecord::Base.send(:include, DateTimeAttribute)
+```
+
+Then add attributes into your models:
+
+```ruby
+class MyModel < ActiveRecord::Base
+  date_time_attribute :created_at, :updated_at # See more examples above
+end
+```
+
 ## Using Chronic gem
 
 ```ruby
@@ -121,21 +147,5 @@ my_date_time.date_time           # => 2001-02-03 22:00:00 +0700
 
 my_date_time = DateTimeAttribute::Container.new(Time.zone.now)
 my_date_time.date_time # => 2013-12-03 00:02:01 +0000
-```
-
-## ActiveRecord users
-
-If you are using Rails put in your initializers (eg `config/initializers/date_time_attribute.rb`):
-
-```ruby
-ActiveRecord::Base.send(:include, DateTimeAttribute)
-```
-
-Then add attributes into your models:
-
-```ruby
-class MyModel < ActiveRecord::Base
-  date_time_attribute :created_at, :updated_at # See more examples above
-end
 ```
 
