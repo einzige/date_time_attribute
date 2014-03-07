@@ -2,9 +2,10 @@ require 'rubygems'
 require 'active_support'
 require 'active_support/duration'
 require 'date_time_attribute/container'
+require 'date_time_attribute/railtie' if defined?(Rails)
 
 module DateTimeAttribute
-  VERSION = '0.0.8'
+  VERSION = '0.1.0'
 
   extend ActiveSupport::Concern
 
