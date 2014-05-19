@@ -111,7 +111,7 @@ module DateTimeAttribute
 
     def update_date_time
       if @date || @time
-        date_time = self.class.parser.parse("#{date.try(:strftime, '%Y-%m-%d')} #{time.try(:strftime, '%H:%M')}")
+        date_time = self.class.parser.parse("#{date.try(:strftime, '%Y-%m-%d')} #{time.try(:strftime, '%H:%M:%S')}")
         self.date_time = time_zone ? date_time.in_time_zone(time_zone) : date_time
       end
     end
