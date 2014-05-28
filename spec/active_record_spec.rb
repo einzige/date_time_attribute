@@ -35,9 +35,10 @@ describe DateTimeAttribute, ActiveRecord::Base, use_active_record: true do
       end
 
       context 'date_time set' do
-        let(:created_at) { Time.new(2001, 2, 3, 4, 5, 6, Time.zone.formatted_offset) }
+        let(:tz_offset) { Time.zone.formatted_offset }
+        let(:created_at) { Time.new(2001, 2, 3, 4, 5, 6, tz_offset) }
         it { should_not be_nil }
-        
+
         it 'is equal to the original value (to the second)' do
           expect((target.created_at - created_at).abs).to be < 1
         end
