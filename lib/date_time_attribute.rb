@@ -5,7 +5,7 @@ require 'date_time_attribute/container'
 require 'date_time_attribute/railtie' if defined?(Rails)
 
 module DateTimeAttribute
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   extend ActiveSupport::Concern
 
